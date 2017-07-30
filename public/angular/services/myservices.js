@@ -19,4 +19,13 @@ myApp.service('TicketService', function ($http) {
             url:'/users/signup'
         })
     }
+
+    //Raise a ticket
+    this.createTicket=function(data){
+        return $http({
+            method:"POST",
+            data:data,
+            url:'/query/create'
+        })
+    }
 })

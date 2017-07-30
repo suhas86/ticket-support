@@ -1,44 +1,48 @@
 <ng-include src="'./views/menu.html'"></ng-include>
 
 <section>
-			<div class="section-content">
-				<h1 class="section-header">Raise your ticket</span></h1>
-				<p>Please provide detailed information which will help us resolve the issue as soon
-                    as possible
-                </p>
-			</div>
-			<div class="contact-section">
-			<div class="container">
-				<form>
-					<div class="col-md-6 form-line">
-			  			<div class="form-group">
-			  				<label for="exampleInputUsername">Your name</label>
-					    	<input type="text" class="form-control" id="" placeholder=" Enter Name">
-				  		</div>
-				  		<div class="form-group">
-					    	<label for="exampleInputEmail">Email Address</label>
-					    	<input type="email" class="form-control" id="exampleInputEmail" placeholder=" Enter Email id">
-					  	</div>	
-					  	<div class="form-group">
-					    	<label for="telephone">Mobile No.</label>
-					    	<input type="tel" class="form-control" id="telephone" placeholder=" Enter 10-digit mobile no.">
-			  			</div>
-			  		</div>
-			  		<div class="col-md-6">
-                          <div class="form-group">
-			  				<label for ="description"> Subject</label>
-			  			 	<input type="text" class="form-control" id="" placeholder=" Enter Name">
-			  			</div>
-			  			<div class="form-group">
-			  				<label for ="description"> Message</label>
-			  			 	<textarea  class="form-control" id="description" placeholder="Enter Your Message"></textarea>
-			  			</div>
-			  			<div>
-
-			  				<button type="button" class="btn btn-default submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
-			  			</div>
-			  			
+	<div class="section-content">
+		<h1 class="section-header">Raise your ticket</span>
+		</h1>
+		<p>Please provide detailed information which will help us resolve the issue as soon as possible
+		</p>
+	</div>
+	<div class="contact-section">
+		<div class="container">
+			<form ng-submit="raiseTicketPage.raiseTicket()">
+				<div class="col-md-6 form-line">
+					<div class="form-group">
+						<label for="exampleInputUsername">Your name</label>
+						<input type="text" class="form-control" ng-model="raiseTicketPage.userName" id="userName" name="userName" placeholder=" Enter Name"
+						 required>
 					</div>
-				</form>
-			</div>
-		</section>
+					<div class="form-group">
+						<label for="exampleInputEmail">Email Address</label>
+						<input type="email" class="form-control" ng-model="raiseTicketPage.email" id="email" placeholder=" Enter Email id" name="email"
+						 required>
+					</div>
+					<div class="form-group">
+						<label for="telephone">Mobile No.</label>
+						<input type="tel" class="form-control" id="mobileNumber" ng-model="raiseTicketPage.mobileNumber" name="mobileNumber" placeholder=" Enter 10-digit mobile no."
+						 required>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="description"> Subject</label>
+						<input type="text" class="form-control" ng-model="raiseTicketPage.querySubject" id="querySubject" name="querySubject" placeholder=" Enter Subject"
+						 required>
+					</div>
+					<div class="form-group">
+						<label for="description"> Message</label>
+						<textarea class="form-control" id="queryContent" ng-model="raiseTicketPage.queryContent" name="queryContent" placeholder="Enter Your Message"
+						 required></textarea>
+					</div>
+					<div>
+						  <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-default submit" value="Submit">
+					</div>
+
+				</div>
+			</form>
+		</div>
+</section>
