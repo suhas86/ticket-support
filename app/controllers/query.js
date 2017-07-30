@@ -60,5 +60,40 @@ module.exports.controller = function (app) {
             }
         })
     })
+    //Get query by id
+    queryRoute.get('/case/:id', function (req, res) {
+        var id = req.params.id;
+
+        queryModel.findOne({ _id: id }, function (err, response) {
+            if (err) {
+                var myResponse = responseGenerator.generate(true,
+                    "Oops some went wrong " + err, 500, null);
+                // res.send(myResponse);
+                res.send(myResponse);
+            } else {
+                var myResponse = responseGenerator.generate(false, "",
+                    200, response);
+                res.send(myResponse);
+            }
+        })
+    })
+    //Add Comment
+    queryRoute.put('/case/:id/update', function (req, res) {
+        var update = req.body;
+        queryModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
+            function (err, response) {
+                if (err) {
+                    var myResponse = responseGenerator.generate(true,
+                        "Oops some went wrong " + err, 500, null);
+                    // res.send(myResponse);
+                    res.send(myResponse);
+                } else {
+                    var myResponse = responseGenerator.generate(false, "",
+                        200, response);
+                    res.send(myResponse);
+                }
+            })
+    });
+
     app.use('/query', queryRoute);
 }

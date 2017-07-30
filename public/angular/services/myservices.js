@@ -6,34 +6,49 @@ myApp.service('TicketService', function ($http) {
     this.checkLogin = function (data) {
         return $http({
             method: 'POST',
-            data:data,
+            data: data,
             url: '/users/login'
         })
     }
 
     //Sign up API
-    this.signupUser=function(data){
+    this.signupUser = function (data) {
         return $http({
-            method:"POST",
-            data:data,
-            url:'/users/signup'
+            method: "POST",
+            data: data,
+            url: '/users/signup'
         })
     }
 
     //Raise a ticket
-    this.createTicket=function(data){
+    this.createTicket = function (data) {
         return $http({
-            method:"POST",
-            data:data,
-            url:'/query/create'
+            method: "POST",
+            data: data,
+            url: '/query/create'
         })
     }
 
     //Get User case list
-    this.getUserCaseList=function(id){
+    this.getUserCaseList = function (id) {
         return $http({
-            method:"GET",
-            url:'query/list/'+id
+            method: "GET",
+            url: 'query/list/' + id
+        })
+    }
+    //Get Case by id
+    this.getUserCaseDetail = function (id) {
+        return $http({
+            method: "GET",
+            url: 'query/case/' + id
+        })
+    }
+    //Add Comment
+    this.updateCase = function (data, id) {
+        return $http({
+            method: "PUT",
+            url: 'query/case/' + id + '/update',
+            data: data
         })
     }
 })

@@ -18,7 +18,7 @@ myApp.config(['$routeProvider', function($routeProvider){
             controller: 'caseController',
             controllerAs: 'myCasePage'
         })
-        .when('/view-case',{
+        .when('/view-case/:id',{
             templateUrl:'./views/view-case.html',
             controller: 'viewCaseController',
             controllerAs: 'viewCasePage'

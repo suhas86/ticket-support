@@ -1,13 +1,12 @@
 <ng-include src="'./views/menu.html'"></ng-include>
 <div class="row">
     <div class="col">
-        <h3>Subject comese here</h3>
-        <p>Description comes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum venenatis quam
-            nec eleifend. Pellentesque quis nisl ac quam suscipit interdum. Nullam aliquam suscipit fermentum. Curabitur
-            sapien justo, ultricies vel rutrum quis, sagittis sit amet augue. Nunc nec ullamcorper leo. </p>
-        <span>Status</span>
+        <h3>{{viewCasePage.response.querySubject}}</h3>
+        <p>{{viewCasePage.response.queryContent}}</p>
+       <b>Status: </b> <span>{{viewCasePage.response.ticketStatus}}</span>
         <div class="pull-right">
-            <button type="button" class="btn btn-primary">Close ticket</button>
+            <button type="button" ng-click="viewCasePage.updateStatus()"
+             class="btn btn-primary">{{viewCasePage.buttonText}}</button>
         </div>
     </div>
 
@@ -16,29 +15,31 @@
 <div class="row clear-fi">
     <div class="col">
         <ul class="list-group">
-            <li class="list-group-item">
-                <h5>Admin</h5>
-                <p>We have assigned our service team to fix this issue</p>
+            <li class="list-group-item" ng-repeat="res in viewCasePage.response.comment">
+                <h5>{{res.userName}}</h5>
+                <p>{{res.queryText}}</p>
+                <p class="">{{res.createdAt | date}}</p>
             </li>
-            <li class="list-group-item">
-                <h5>User</h5>
-                <p>Thank you</p>
-            </li>
+            
         </ul>
     </div>
 </div>
 <br>
 <div class="row">
     <div class="col-md-6">
+        <form ng-submit="viewCasePage.addComment()">
         <div class="form-group">
             <label for="comment">Add Comment:</label>
-            <textarea class="form-control" rows="5" id="comment"></textarea>
+            <textarea class="form-control"
+            ng-model="viewCasePage.comment" name="comment" rows="5" id="comment"></textarea>
             <div class="clearfix"></div>
             <div class="pull-right" style="margin-top:5px;">
-                <button type="button" class="btn btn-default">Post Comment</button>
+                <input type="submit" name="login-submit" id="login-submit" 
+                tabindex="4" class="btn btn-default submit" value="Post Comment">
             </div>
 
         </div>
+        </form>
     </div>
     <div class="col-md-6"></div>
 </div>
