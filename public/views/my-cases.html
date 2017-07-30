@@ -23,34 +23,14 @@
                     </tr> 
                   </thead>
                   <tbody>
-                          <tr>
+                          <tr ng-repeat="case in myCasePage.caseList">
                             <td align="center">
-                              <a class="btn btn-default" ng-href="#/view-case">
+                              <a class="btn btn-default" ng-href="#/view-case/{{case._id}}">
                                 <em class="fa fa-eye"></em></a>
                             </td>
-                            <td>My Subject</td>
-                            <td>30/07/2017</td>
-                            <td>Open</td>
-
-                          </tr>
-                        <tr>
-                            <td align="center">
-                              <a class="btn btn-default" ng-href="#/view-case">
-                                <em class="fa fa-eye"></em></a>
-                            </td>
-                            <td>My Subject</td>
-                            <td>30/07/2017</td>
-                            <td>Open</td>
-
-                          </tr>
-                        <tr>
-                            <td align="center">
-                              <a class="btn btn-default" ng-href="#/view-case">
-                                <em class="fa fa-eye"></em></a>
-                            </td>
-                            <td>My Subject</td>
-                            <td>30/07/2017</td>
-                            <td>Open</td>
+                            <td>{{case.querySubject}}</td>
+                            <td>{{case.createdAt}}</td>
+                            <td>{{case.ticketStatus}}</td>
 
                           </tr>
                         </tbody>

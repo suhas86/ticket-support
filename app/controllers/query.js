@@ -43,6 +43,22 @@ module.exports.controller = function (app) {
             res.send(myResponse);
         }
     })
+    //Get User query list
+    queryRoute.get('/list/:id', function (req, res) {
+        var id = req.params.id;
 
+        queryModel.find({ userId: id }, function (err, response) {
+            if (err) {
+                var myResponse = responseGenerator.generate(true,
+                    "Oops some went wrong " + err, 500, null);
+                // res.send(myResponse);
+                res.send(myResponse);
+            } else {
+                var myResponse = responseGenerator.generate(false, "",
+                    200, response);
+                res.send(myResponse);
+            }
+        })
+    })
     app.use('/query', queryRoute);
 }

@@ -28,4 +28,12 @@ myApp.service('TicketService', function ($http) {
             url:'/query/create'
         })
     }
+
+    //Get User case list
+    this.getUserCaseList=function(id){
+        return $http({
+            method:"GET",
+            url:'query/list/'+id
+        })
+    }
 })
