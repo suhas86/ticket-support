@@ -1,8 +1,10 @@
-myApp.controller('caseController', ['$http', 'TicketService', function ($http,
-    TicketService) {
+myApp.controller('caseController', ['$http', 'TicketService','$cookies', function ($http,
+    TicketService,$cookies) {
         var main =this;
         var caseList=[];
-        TicketService.getUserCaseList('597cc46ab6f8f433808c1358').
+        var user={};
+        this.user=$cookies.getObject('auth');
+        TicketService.getUserCaseList(this.user._id).
         then(function successCallback(response){
             main.caseList=response.data.data;
         },function errorCallback(response){

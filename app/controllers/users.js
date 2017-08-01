@@ -42,7 +42,7 @@ module.exports.controller = function (app) {
 
     //Login Route
     userRouter.post('/login/', function (req, res) {
-        
+
         if (req.body.email != undefined && req.body.password != undefined) {
             userModel.findOne({ $and: [{ 'email': req.body.email }, { 'password': req.body.password }] },
                 function (err, foundUser) {
@@ -71,13 +71,54 @@ module.exports.controller = function (app) {
                         }
                     }
                 });
-        }else {
+        } else {
             var myResponse = responseGenerator.generate(true,
                 "Please enter mandatory fields", 403, null);
             res.send(myResponse);
         }
 
     });
+    //Get user by Id
+    userRouter.get('/profile/:id', function (req, res) {
+        userModel.findOne({ '_id': req.params.id },
+            function (err, foundUser) {
+                if (err) {
+                    var myResponse = responseGenerator.generate(true, "Oops Something Went Wrong " + err,
+                        500, null);
+                    res.send(myResponse);
+
+                } else {
+                    if (foundUser == null || foundUser == undefined) {
+                        var myResponse = responseGenerator.generate(true, "Please check your email and password ",
+                            404, null);
+                        res.send(myResponse);
+
+                    } else {
+                        var myResponse = responseGenerator.generate(false, "",
+                            200, foundUser);
+                        res.send(myResponse);
+                    }
+                }
+            });
+    });
+    //Update Profile
+    userRouter.put('/profile/:id/update', function (req, res) {
+        var update = req.body;
+        userModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
+            function (err, response) {
+                if (err) {
+                    var myResponse = responseGenerator.generate(true,
+                        "Oops some went wrong " + err, 500, null);
+                    // res.send(myResponse);
+                    res.send(myResponse);
+                } else {
+                    var myResponse = responseGenerator.generate(false, "",
+                        200, response);
+                    res.send(myResponse);
+                }
+            })
+
+    })
 
     app.use('/users', userRouter);
 }

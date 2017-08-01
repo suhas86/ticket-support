@@ -53,16 +53,31 @@ myApp.service('TicketService', function ($http) {
     }
 
     //Upload File
-    this.upload = function (file,id) {
+    this.upload = function (file, id) {
         var fd = new FormData();
         fd.append('myfile', file.upload);
         console.log(fd);
         return $http({
             method: "POST",
             data: fd,
-            url: 'query/upload/'+id,
+            url: 'query/upload/' + id,
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
+        })
+    }
+    //Get Profile
+    this.getProfile = function (id) {
+        return $http({
+            method: "GET",
+            url: 'users/profile/' + id
+        })
+    }
+    //Update Profile
+    this.updateProfile = function (data, id) {
+        return $http({
+            method: "PUT",
+            url: 'users/profile/' + id + '/update',
+            data: data
         })
     }
 })

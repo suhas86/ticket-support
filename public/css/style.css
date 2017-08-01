@@ -131,6 +131,10 @@ body {
 .navbar-custom .icon-bar {
     background-color:#BCD7E5;
 }
+.navbar-nav > li > .dropdown-menu { background-color: #53A3CD; }
+.dropdown-menu > li > a:hover {
+    background-color:#BCD7E5;
+}
 .filterable {
     margin-top: 15px;
 }

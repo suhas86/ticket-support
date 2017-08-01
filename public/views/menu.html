@@ -1,5 +1,6 @@
 <!-- Navigation will start here -->
-<nav class="navbar navbar-custom  navbar-static-top">
+<nav class="navbar navbar-custom  navbar-static-top"
+ng-controller="loginController as menu">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -13,6 +14,17 @@
             <ul class="nav navbar-nav">
                 <li><a href="#/raise-ticket">Raise a ticket</a></li>
                 <li><a href="#/my-cases">My Cases</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right ">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#/">Options
+                     <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+                        <li><a href="#/" ng-click="menu.logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </div>

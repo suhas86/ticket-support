@@ -1,12 +1,20 @@
-myApp.controller('ticketController', ['$http', 'TicketService',
-    function ($http, TicketService) {
+myApp.controller('ticketController', ['$http', 'TicketService','$cookies',
+    function ($http, TicketService,$cookies) {
         var main = this;
         this.file = {};
+        var user={};
+        this.user=$cookies.getObject('auth');
+        //Default Values
+        main.userName=this.user.firstName +' '+this.user.lastName;
+        main.email=this.user.email;
+        main.mobileNumber=this.user.mobileNumber
+       
         this.raiseTicket = function () {
+            
             var myData = {
                 name: main.userName,
                 email: main.email,
-                userId: '597cc46ab6f8f433808c1358',
+                userId: main.user._id,
                 mobileNumber: main.mobileNumber,
                 querySubject: main.querySubject,
                 queryContent: main.queryContent
