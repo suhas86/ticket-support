@@ -12,6 +12,7 @@ var querySchema = new Schema({
     createdAt: { type: Date, default: Date.now() },
     updatedAt: { type: Date, default: Date.now() },
     ticketStatus: { type: String, default: 'Open' },
+    fileName:{type:String,default:''},
     comment: [{
         userName: String,
         queryText: String,

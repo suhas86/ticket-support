@@ -1,1 +1,1 @@
-var myApp = angular.module('ticketApp', ['ngRoute']); 
+var myApp = angular.module('ticketApp', ['ngRoute','fileModelDirective']); 

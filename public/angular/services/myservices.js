@@ -51,4 +51,18 @@ myApp.service('TicketService', function ($http) {
             data: data
         })
     }
+
+    //Upload File
+    this.upload = function (file,id) {
+        var fd = new FormData();
+        fd.append('myfile', file.upload);
+        console.log(fd);
+        return $http({
+            method: "POST",
+            data: fd,
+            url: 'query/upload/'+id,
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        })
+    }
 })
