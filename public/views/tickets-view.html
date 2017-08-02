@@ -1,0 +1,74 @@
+<ng-include src="'./views/menu.html'"></ng-include>
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-10 col-md-offset-1">
+      <div class="row">
+          <div class="col-md-2">
+            <label for="usr">Search:</label>
+          </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                
+                <input type="text" class="form-control" name="search" ng-model="search" 
+                id="search" placeholder="Search....">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label for="status">Status:</label>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                
+                <select class="form-control" name="singleSelect" ng-model="singleSelect">
+                  <option value="">All</option>
+                   <option value="Open">Open</option>
+                   <option value="Closed">Closed</option>
+                </select>
+              </div>
+            </div>
+          </div>
+      <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col col-xs-6">
+              <h3 class="panel-title">List of tickets raised</h3>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          
+          <table class="table table-striped table-bordered table-list">
+            <thead>
+              <tr>
+                <th>View</th>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>File</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="case in adminTicketPage.caseList | filter:singleSelect | filter:search">
+                <td align="center">
+                  <a class="btn btn-default" ng-href="#/view-case/{{case._id}}">
+                                <em class="fa fa-eye"></em></a>
+                </td>
+                <td>{{case.name}}</td>
+                <td>{{case.querySubject}}</td>
+                <td>{{case.createdAt | date}}</td>
+                <td ng-if="case.fileName!=''"><a ng-href="/query/download/{{case.fileName}}">{{case.fileName}}</a></td>
+                <td ng-if="case.fileName===''">No file available</td>
+                <td>{{case.ticketStatus}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

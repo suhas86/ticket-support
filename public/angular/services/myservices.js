@@ -80,4 +80,13 @@ myApp.service('TicketService', function ($http) {
             data: data
         })
     }
+
+    //********************Admin Apis ********************//
+     //Get All Users
+    this.getAllList = function () {
+        return $http({
+            method: "GET",
+            url: 'query/all-list' 
+        })
+    }
 })

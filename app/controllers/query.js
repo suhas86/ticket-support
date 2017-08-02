@@ -67,8 +67,7 @@ module.exports.controller = function (app) {
     //Get User query list
     queryRoute.get('/list/:id', function (req, res) {
         var id = req.params.id;
-
-        queryModel.find({ userId: id }, function (err, response) {
+        queryModel.find({ userId: id }).sort({'createdAt': 'desc'}).exec(function (err, response) {
             if (err) {
                 var myResponse = responseGenerator.generate(true,
                     "Oops some went wrong " + err, 500, null);
@@ -165,6 +164,27 @@ module.exports.controller = function (app) {
             }
         })
     })
+
+    //********************Admin Apis ********************//
+    queryRoute.get('/all-list/', function (req, res) {
+
+        queryModel.find({}).sort({'createdAt': 'desc'}).exec(function (err, response) {
+            if (err) {
+                var myResponse = responseGenerator.generate(true,
+                    "Oops some went wrong " + err, 500, null);
+                // res.send(myResponse);
+                res.send(myResponse);
+            } else {
+                var myResponse = responseGenerator.generate(false, "",
+                    200, response);
+                res.send(myResponse);
+            }
+        })
+    })
+    queryRoute.get('/download/:fileName', function (req, res) {
+        var file =  './uploads/' + req.params.fileName;
+        res.download(file); // Set disposition and send it.
+    });
 
     app.use('/query', queryRoute);
 }

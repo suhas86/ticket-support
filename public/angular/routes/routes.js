@@ -32,6 +32,12 @@ myApp.config(['$routeProvider', function ($routeProvider) {
             controllerAs: 'profilePage',
             authenticated: true
         })
+        .when('/tickets-all', {
+            templateUrl: './views/tickets-view.html',
+            controller: 'adminTicketController',
+            controllerAs: 'adminTicketPage',
+            authenticated: true
+        })
         .otherwise(
         {
             //redirectTo:'/'

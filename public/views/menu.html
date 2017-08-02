@@ -11,10 +11,13 @@ ng-controller="loginController as menu">
             <a class="navbar-brand" href="#/">Support System</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" ng-if="menu.user.userType==2">
                 <li><a href="#/raise-ticket">Raise a ticket</a></li>
                 <li><a href="#/my-cases">My Cases</a></li>
 
+            </ul>
+            <ul class="nav navbar-nav" ng-if="menu.user.userType==1">
+                <li><a href="#/tickets-all">Tickets</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right ">
                 <li class="dropdown">

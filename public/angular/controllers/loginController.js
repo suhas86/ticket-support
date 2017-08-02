@@ -15,7 +15,11 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
                     
                     user.password = "";
                     $cookies.putObject("auth", user);
+                    if(user.userType==2)
                     $location.path('/raise-ticket')
+                    else 
+                       $location.path('/tickets-all') 
+                    
                 }, function errorCallback(response) {
 
                 })
@@ -43,5 +47,10 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
         this.logout = function () {
            authFactory.doUserLogout();
            $location.path('/');
+        }
+
+    //    this.checkUserType=function()
+        {
+            this.user=$cookies.getObject("auth");
         }
     }])
