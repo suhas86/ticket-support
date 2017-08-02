@@ -24,10 +24,12 @@ myApp.controller('viewCaseController', ['$http', 'TicketService', '$routeParams'
                 "userName": main.user.firstName+' '+main.user.lastName,
                 "queryText": main.comment
             }
+            
             var sendData = main.response.comment;
+            
             sendData.push(newComment);
-            console.log(sendData);
-            TicketService.updateCase({ "comment": sendData }, main.id)
+            
+            TicketService.updateCase({ "comment": sendData,"sendMail":"abc@gmail.com" }, main.id)
                 .then((response) => {
                     main.comment = "";
                     this.response = response.data.data;

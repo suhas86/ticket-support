@@ -100,6 +100,7 @@ module.exports.controller = function (app) {
     //Add Comment
     queryRoute.put('/case/:id/update', function (req, res) {
         var update = req.body;
+        console.log("To be updated ",update)
         queryModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
             function (err, response) {
                 if (err) {
@@ -110,6 +111,12 @@ module.exports.controller = function (app) {
                 } else {
                     var myResponse = responseGenerator.generate(false, "",
                         200, response);
+                    //Send Mail
+                    if(update.ticketStatus!=undefined) {
+                        console.log("Status update");
+                    } else {
+                        console.log("Comment updated")
+                    }  
                     res.send(myResponse);
                 }
             })

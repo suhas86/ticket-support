@@ -5,6 +5,7 @@ var userRouter = express.Router();
 var userModel = mongoose.model('User');
 
 var responseGenerator = require('./../../libs/responseGenerator');
+var myMailer = require('./../../libs/sendMail');
 
 module.exports.controller = function (app) {
 
@@ -28,6 +29,9 @@ module.exports.controller = function (app) {
                 } else {
                     var myResponse = responseGenerator.generate(false, "",
                         200, newUser);
+                     myMailer.sendMail("Welcome",
+                     "Welcome to Ticket Support. Please let us know how can we help you",
+                    newUser.email);   
                     res.send(myResponse);
 
                 }
@@ -58,7 +62,7 @@ module.exports.controller = function (app) {
 
                         } else {
                             var myResponse = responseGenerator.generate(false, "",
-                                200, foundUser);
+                                200, foundUser);         
                             /*
                         req.session.user = foundUser;
                         delete req.session.user.password;
