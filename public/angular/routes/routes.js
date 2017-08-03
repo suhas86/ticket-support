@@ -62,6 +62,8 @@ myApp.run(["$rootScope", "$location", "authFactory",
                 //redirect him back to original page
                 if (next.$$route.originalPath == "/") {
                     if (authFactory.getAuthStatus()) {
+                        console.log("Current route ",current);
+                        console.log("Event route ",next);
                         $location.path(current.$$route.originalPath);
                     }
                 }
