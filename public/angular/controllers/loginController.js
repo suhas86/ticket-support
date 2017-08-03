@@ -4,6 +4,7 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
         var main = this;
         this.response={};
         this.emailFormat =  /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+        this.mobileFormat=/^[0-9]{10,10}$/;
         this.login = function () {
             //Login form data
             var myData = {
@@ -16,7 +17,7 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
                     main.response=response;
                     var user = response.data.data;
                     if(response.data.error){
-                        
+
                     } else {
                     user.password = "";
                     $cookies.putObject("auth", user);
@@ -28,7 +29,8 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
                     
                     
                 }, function errorCallback(response) {
-
+                    main.response=response;
+                    main.response.message="Oops something gone wrong";
                 })
         }
 
@@ -43,13 +45,22 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
 
             TicketService.signupUser(myData).
                 then(function successCallback(response) {
+                    main.response=response;
                     var user = response.data.data;
-                    
+                    if(response.data.error){
+
+                    } else {
                     user.password = "";
                     $cookies.putObject("auth", user);
+                    if(user.userType==2)
                     $location.path('/raise-ticket')
+                    else 
+                       $location.path('/tickets-all') 
+                    }
+                    
                 }, (function errorCallback(response) {
-                    console.log(response);
+                    main.response=response;
+                    main.response.message="Oops something gone wrong";
                 }))
         }
         this.logout = function () {

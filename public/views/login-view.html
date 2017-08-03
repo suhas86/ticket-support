@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form id="register-form" ng-submit="loginPage.signup()" method="post" role="form" style="display: none;">
+                        <form id="register-form" name="regForm" ng-submit="loginPage.signup()" method="post" role="form" style="display: none;">
                             <div class="form-group">
                                 <input type="text" ng-model="loginPage.firstName" name="firstName" id="firstName" tabindex="1" class="form-control" placeholder="First Name"
                                     value="" required>
@@ -73,13 +73,17 @@
                                     placeholder="Confirm Password" required>
                             </div>
                             <div class="form-group">
-                                <input type="number" ng-model="loginPage.mobileNumber" name="mobileNumber" id="mobileNumber" tabindex="2" class="form-control"
-                                    placeholder="Mobile Number" required>
+                                <input type="number" ng-pattern="loginPage.mobileFormat" ng-model="loginPage.mobileNumber" maxlength="10" name="mobileNumber"
+                                    id="mobileNumber" tabindex="2" class="form-control" placeholder="Mobile Number" required>
                             </div>
+                            <p ng-show="regForm.newEmail.$invalid && !regForm.newEmail.$pristine" class="error">Enter a valid email</p>
+                            <p ng-show="regForm.mobileNumber.$invalid && !regForm.mobileNumber.$pristine" class="error">Enter a valid Mobile Number</p>
+                            <p ng-show=" !regForm.confirmPassword.$pristine && loginPage.newPassword !== loginPage.confirmPassword" class="error">Password mismatch</p>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3">
-                                        <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                        <input type="submit" name="register-submit" ng-disabled="regForm.$invalid" id="register-submit" tabindex="4" class="form-control btn btn-register"
+                                            value="Register Now">
                                     </div>
                                 </div>
                             </div>
