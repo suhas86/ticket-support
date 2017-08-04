@@ -10,8 +10,8 @@ var myMailer = require('./../../libs/sendMail');
 module.exports.controller = function (app) {
 
     userRouter.post('/signup', function (req, res) {
-        if (req.body.firstName != undefined && req.body.lastName != undefined
-            && req.body.password != undefined && req.body.email != undefined) {
+        if (req.body.firstName != undefined && req.body.lastName != undefined &&
+            req.body.password != undefined && req.body.email != undefined) {
             var newUser = new userModel({
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
@@ -29,9 +29,9 @@ module.exports.controller = function (app) {
                 } else {
                     var myResponse = responseGenerator.generate(false, "",
                         200, newUser);
-                     myMailer.sendMail("Welcome",
-                     "Welcome to Ticket Support. Please let us know how can we help you",
-                    newUser.email);   
+                    myMailer.sendMail("Welcome",
+                        "Welcome to Ticket Support. Please let us know how can we help you",
+                        newUser.email);
                     res.send(myResponse);
 
                 }
@@ -47,33 +47,34 @@ module.exports.controller = function (app) {
     userRouter.post('/login/', function (req, res) {
 
         if (req.body.email != undefined && req.body.password != undefined) {
-            userModel.findOne({ $and: [{ 'email': req.body.email }, { 'password': req.body.password }] },
-                function (err, foundUser) {
-                    if (err) {
-                        var myResponse = responseGenerator.generate(true, "Oops Something Went Wrong " + err,
-                            500, null);
-                        res.send(myResponse);
-
-                    } else {
-                        if (foundUser == null || foundUser == undefined) {
-                            var myResponse = responseGenerator.generate(true, "Please check your email and password ",
+            userModel.findOne({
+                email: req.body.email
+            }, function (err, user) {
+                if (err) {
+                    var myResponse = responseGenerator.generate(true, "Oops Something Went Wrong " + err,
+                        500, null);
+                    res.send(myResponse);
+                } else if (!user) {
+                    var myResponse = responseGenerator.generate(true, "Please check the email provided ",
+                        404, null);
+                    res.send(myResponse);
+                } else {
+                    user.comparePassword(req.body.password, function (err, isMatch) {
+                        if (isMatch && !err) {
+                            // if user is found and password is right create a token
+                         //   var token = jwt.encode(user, config.secret);
+                            // return the information including token as JSON
+                          var myResponse = responseGenerator.generate(false, "",
+                                200, user); 
+                          res.send(myResponse);      
+                        } else {
+                           var myResponse = responseGenerator.generate(true, "Please check your password ",
                                 404, null);
                             res.send(myResponse);
-
-                        } else {
-                            var myResponse = responseGenerator.generate(false, "",
-                                200, foundUser);         
-                            /*
-                        req.session.user = foundUser;
-                        delete req.session.user.password;
-                        req.user = foundUser;
-                        delete req.user.password;
-                        app.locals.user = req.session.user
-                        */
-                            res.send(myResponse);
                         }
-                    }
-                });
+                    });
+                }
+            })
         } else {
             var myResponse = responseGenerator.generate(true,
                 "Please enter mandatory fields", 403, null);
@@ -83,7 +84,9 @@ module.exports.controller = function (app) {
     });
     //Get user by Id
     userRouter.get('/profile/:id', function (req, res) {
-        userModel.findOne({ '_id': req.params.id },
+        userModel.findOne({
+                '_id': req.params.id
+            },
             function (err, foundUser) {
                 if (err) {
                     var myResponse = responseGenerator.generate(true, "Oops Something Went Wrong " + err,
@@ -107,7 +110,11 @@ module.exports.controller = function (app) {
     //Update Profile
     userRouter.put('/profile/:id/update', function (req, res) {
         var update = req.body;
-        userModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
+        userModel.findOneAndUpdate({
+                _id: req.params.id
+            }, update, {
+                new: true
+            },
             function (err, response) {
                 if (err) {
                     var myResponse = responseGenerator.generate(true,
@@ -125,4 +132,3 @@ module.exports.controller = function (app) {
 
     app.use('/users', userRouter);
 }
-
