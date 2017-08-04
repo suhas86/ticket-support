@@ -191,7 +191,7 @@ module.exports.controller = function (app) {
             }
         })
     })
-    queryRoute.get('/download/:fileName',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.get('/download/:fileName', function (req, res) {
         var file =  './uploads/' + req.params.fileName;
         res.download(file); // Set disposition and send it.
     });

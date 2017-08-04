@@ -36,7 +36,8 @@ myApp.config(['$routeProvider', function ($routeProvider) {
             templateUrl: './views/tickets-view.html',
             controller: 'adminTicketController',
             controllerAs: 'adminTicketPage',
-            authenticated: true
+            authenticated: true,
+            isAdmin:true
         })
         .otherwise(
         {
@@ -56,6 +57,12 @@ myApp.run(["$rootScope", "$location", "authFactory",
                 if (next.$$route.authenticated) {
                     if (!authFactory.getAuthStatus()) {
                         $location.path("/");
+                    }
+                }
+                //Only Admin can acess these pages
+                if (next.$$route.isAdmin) {
+                    if (!authFactory.checkAdmin()) {
+                        $location.path(current.$$route.originalPath);
                     }
                 }
                 //If user is logged in and try to access login page

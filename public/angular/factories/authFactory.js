@@ -9,8 +9,18 @@ myApp.factory('authFactory',['$cookies',function($cookies){
         }
     }
 
+    user.checkAdmin=function(){
+        var status=$cookies.get('auth');
+        if(status.userType==1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     user.doUserLogout=function(){
         $cookies.remove('auth');
+        $cookies.remove('token');
     }
     return user;
 }])
