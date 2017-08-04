@@ -1,7 +1,11 @@
-myApp.service('TicketService', function ($http) {
+myApp.service('TicketService', function ($http, $cookies) {
     var main = this;
     this.baseUrl = "http:://localhost:3000/"
 
+    this.setToken = function () {
+        token = $cookies.get('token');
+        $http.defaults.headers.common.Authorization = token;
+    }
     //Login Api
     this.checkLogin = function (data) {
         return $http({
@@ -22,6 +26,7 @@ myApp.service('TicketService', function ($http) {
 
     //Raise a ticket
     this.createTicket = function (data) {
+        this.setToken();
         return $http({
             method: "POST",
             data: data,
@@ -31,6 +36,7 @@ myApp.service('TicketService', function ($http) {
 
     //Get User case list
     this.getUserCaseList = function (id) {
+        this.setToken();
         return $http({
             method: "GET",
             url: 'query/list/' + id
@@ -38,6 +44,7 @@ myApp.service('TicketService', function ($http) {
     }
     //Get Case by id
     this.getUserCaseDetail = function (id) {
+        this.setToken();
         return $http({
             method: "GET",
             url: 'query/case/' + id
@@ -45,6 +52,7 @@ myApp.service('TicketService', function ($http) {
     }
     //Add Comment
     this.updateCase = function (data, id) {
+        this.setToken();
         return $http({
             method: "PUT",
             url: 'query/case/' + id + '/update',
@@ -54,6 +62,7 @@ myApp.service('TicketService', function ($http) {
 
     //Upload File
     this.upload = function (file, id) {
+        this.setToken();
         var fd = new FormData();
         fd.append('myfile', file.upload);
         console.log(fd);
@@ -62,11 +71,14 @@ myApp.service('TicketService', function ($http) {
             data: fd,
             url: 'query/upload/' + id,
             transformRequest: angular.identity,
-            headers: { 'Content-Type': undefined }
+            headers: {
+                'Content-Type': undefined
+            }
         })
     }
     //Get Profile
     this.getProfile = function (id) {
+        this.setToken();
         return $http({
             method: "GET",
             url: 'users/profile/' + id
@@ -74,6 +86,7 @@ myApp.service('TicketService', function ($http) {
     }
     //Update Profile
     this.updateProfile = function (data, id) {
+        this.setToken();
         return $http({
             method: "PUT",
             url: 'users/profile/' + id + '/update',
@@ -82,11 +95,12 @@ myApp.service('TicketService', function ($http) {
     }
 
     //********************Admin Apis ********************//
-     //Get All Users
+    //Get All Users
     this.getAllList = function () {
+        this.setToken();
         return $http({
             method: "GET",
-            url: 'query/all-list' 
+            url: 'query/all-list'
         })
     }
 })

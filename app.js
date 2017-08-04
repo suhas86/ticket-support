@@ -9,14 +9,16 @@ var path = require('path');
 //var session = require('express-session');
 
 app.use(logger('dev'));
-
+// Use the passport package in our application
+var passport	= require('passport');
+app.use(passport.initialize());
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json({ limit: '10mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+var config      = require('./config/database');
 
-
-mongoose.connect('mongodb://localhost/ticketsystem');
+mongoose.connect(config.database);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, '#MongoDB - connection error'));

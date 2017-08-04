@@ -5,6 +5,9 @@ var queryRoute = express.Router();
 var queryModel = mongoose.model('Query');
 
 var responseGenerator = require('./../../libs/responseGenerator');
+// pass passport for configuration
+var passport	= require('passport');
+require('./../../config/passport')(passport);
 //To upload file
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -30,7 +33,7 @@ var upload = multer({
 module.exports.controller = function (app) {
 
     //Raise a ticket
-    queryRoute.post('/create', function (req, res) {
+    queryRoute.post('/create',passport.authenticate('jwt', { session: false }), function (req, res) {
         //Server side validation
         if (req.body.name != undefined && req.body.email != undefined
             && req.body.mobileNumber != undefined && req.body.querySubject != undefined
@@ -65,7 +68,7 @@ module.exports.controller = function (app) {
         }
     })
     //Get User query list
-    queryRoute.get('/list/:id', function (req, res) {
+    queryRoute.get('/list/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
         var id = req.params.id;
         queryModel.find({ userId: id }).sort({'createdAt': 'desc'}).exec(function (err, response) {
             if (err) {
@@ -81,7 +84,7 @@ module.exports.controller = function (app) {
         })
     })
     //Get query by id
-    queryRoute.get('/case/:id', function (req, res) {
+    queryRoute.get('/case/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
         var id = req.params.id;
 
         queryModel.findOne({ _id: id }, function (err, response) {
@@ -98,7 +101,7 @@ module.exports.controller = function (app) {
         })
     })
     //Add Comment
-    queryRoute.put('/case/:id/update', function (req, res) {
+    queryRoute.put('/case/:id/update',passport.authenticate('jwt', { session: false }), function (req, res) {
         var update = req.body;
         console.log("To be updated ",update)
         queryModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
@@ -123,7 +126,7 @@ module.exports.controller = function (app) {
     });
 
     //Upload file
-    queryRoute.post('/upload/:id', function (req, res) {
+    queryRoute.post('/upload/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
 
         upload(req, res, function (err) {
             if (err) {
@@ -173,7 +176,7 @@ module.exports.controller = function (app) {
     })
 
     //********************Admin Apis ********************//
-    queryRoute.get('/all-list/', function (req, res) {
+    queryRoute.get('/all-list/',passport.authenticate('jwt', { session: false }), function (req, res) {
 
         queryModel.find({}).sort({'createdAt': 'desc'}).exec(function (err, response) {
             if (err) {
@@ -188,7 +191,7 @@ module.exports.controller = function (app) {
             }
         })
     })
-    queryRoute.get('/download/:fileName', function (req, res) {
+    queryRoute.get('/download/:fileName',passport.authenticate('jwt', { session: false }), function (req, res) {
         var file =  './uploads/' + req.params.fileName;
         res.download(file); // Set disposition and send it.
     });

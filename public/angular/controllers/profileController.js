@@ -8,7 +8,10 @@ myApp.controller('profileController', ['$http', 'TicketService', '$location', '$
             .then((response) => {
                 main.profile = response.data.data
             }, ((err) => {
-                console.log(err);
+                if(err.status==401)
+                alert("Oops something went wrong. Please login again");
+                else
+                alert("Oops something went wrong");
             }))
         //update profile
         this.update = function () {
