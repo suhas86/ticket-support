@@ -1,5 +1,8 @@
 <ng-include src="'./views/menu.html'"></ng-include>
 <div class="row">
+    <div class="alert alert-danger" ng-show="!viewCasePage.response">
+        Oops Something went wrong
+    </div>
     <div class="col">
         <h3>{{viewCasePage.response.querySubject}}</h3>
         <p>{{viewCasePage.response.queryContent}}</p>
@@ -27,14 +30,14 @@
 <br>
 <div class="row">
     <div class="col-md-6">
-        <form ng-submit="viewCasePage.addComment()">
+        <form name="commentForm" ng-submit="viewCasePage.addComment()">
         <div class="form-group">
             <label for="comment">Add Comment:</label>
             <textarea class="form-control"
-            ng-model="viewCasePage.comment" name="comment" rows="5" id="comment"></textarea>
+            ng-model="viewCasePage.comment" name="comment" rows="5" id="comment" required></textarea>
             <div class="clearfix"></div>
             <div class="pull-right" style="margin-top:5px;">
-                <input type="submit" name="login-submit" id="login-submit" 
+                <input type="submit" name="login-submit" ng-disabled="commentForm.$invalid" id="login-submit" 
                 tabindex="4" class="btn btn-default submit" value="Post Comment">
             </div>
 

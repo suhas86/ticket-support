@@ -8,12 +8,17 @@ myApp.controller('viewCaseController', ['$http', 'TicketService', '$routeParams'
         this.user = $cookies.getObject('auth');
         //Get Case by ID
         TicketService.getUserCaseDetail(this.id).then((response) => {
-            this.response = response.data.data;
-            if (main.response.ticketStatus == "Open") {
-                main.buttonText = "Close Ticket";
+            if (response.data.error) {
+
             } else {
-                main.buttonText = "Re-Open Ticket";
+                this.response = response.data.data;
+                if (main.response.ticketStatus == "Open") {
+                    main.buttonText = "Close Ticket";
+                } else {
+                    main.buttonText = "Re-Open Ticket";
+                }
             }
+
         }, (error) => {
             console.log(errpr);
         })
@@ -21,18 +26,26 @@ myApp.controller('viewCaseController', ['$http', 'TicketService', '$routeParams'
         //Add Comment
         this.addComment = function () {
             var newComment = {
-                "userName": main.user.firstName+' '+main.user.lastName,
+                "userName": main.user.firstName + ' ' + main.user.lastName,
                 "queryText": main.comment
             }
-            
+
             var sendData = main.response.comment;
-            
+
             sendData.push(newComment);
-            
-            TicketService.updateCase({ "comment": sendData,"sendMail":"abc@gmail.com" }, main.id)
+
+            TicketService.updateCase({
+                    "comment": sendData,
+                    "sendMail": "abc@gmail.com"
+                }, main.id)
                 .then((response) => {
-                    main.comment = "";
-                    this.response = response.data.data;
+                    if (response.data.error) {
+
+                    } else {
+                        main.comment = "";
+                        this.response = response.data.data;
+                    }
+
                 }, (error) => {
                     console.log(error);
                 })
@@ -49,14 +62,20 @@ myApp.controller('viewCaseController', ['$http', 'TicketService', '$routeParams'
 
             TicketService.updateCase(sendData, main.id)
                 .then((response) => {
-                    this.response = response.data.data;
-                    if (main.response.ticketStatus == "Open") {
-                        main.buttonText = "Close Ticket";
+                    if (response.data.error) {
+
                     } else {
-                        main.buttonText = "Re-Open Ticket";
+                        this.response = response.data.data;
+                        if (main.response.ticketStatus == "Open") {
+                            main.buttonText = "Close Ticket";
+                        } else {
+                            main.buttonText = "Re-Open Ticket";
+                        }
                     }
+
                 }, (error) => {
                     console.log(error);
                 })
         }
-    }])
+    }
+])

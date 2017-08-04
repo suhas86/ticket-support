@@ -31,10 +31,10 @@ module.exports.controller = function (app) {
                     // res.send(myResponse);
                     res.send(myResponse);
                 } else {
-                    var token = jwt.encode(user, config.secret);
+                    var token = jwt.encode(newUser, config.secret);
                     var myResponse = responseGenerator.generate(false, "",
                         200, newUser);
-                    newUser.token = 'JWT ' + token;
+                    myResponse.token = 'JWT ' + token;
                     myMailer.sendMail("Welcome",
                         "Welcome to Ticket Support. Please let us know how can we help you",
                         newUser.email);

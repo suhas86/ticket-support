@@ -9,7 +9,7 @@
 	</div>
 	<div class="contact-section">
 		<div class="container">
-			<form ng-submit="raiseTicketPage.raiseTicket()">
+			<form name="ticketForm" ng-submit="raiseTicketPage.raiseTicket()">
 				<div class="col-md-6 form-line">
 					<div class="form-group">
 						<label for="exampleInputUsername">Your name</label>
@@ -18,12 +18,12 @@
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail">Email Address</label>
-						<input type="email" class="form-control" ng-model="raiseTicketPage.email" id="email" placeholder=" Enter Email id" name="email"
+						<input type="email" class="form-control" ng-pattern="raiseTicketPage.emailFormat" ng-model="raiseTicketPage.email" id="email" placeholder=" Enter Email id" name="email"
 						 required>
 					</div>
 					<div class="form-group">
 						<label for="telephone">Mobile No.</label>
-						<input type="tel" class="form-control" id="mobileNumber" ng-model="raiseTicketPage.mobileNumber" name="mobileNumber" placeholder=" Enter 10-digit mobile no."
+						<input type="tel" class="form-control" ng-pattern="raiseTicketPage.mobileFormat" id="mobileNumber" ng-model="raiseTicketPage.mobileNumber" name="mobileNumber" placeholder=" Enter 10-digit mobile no."
 						 required>
 					</div>
 				</div>
@@ -54,9 +54,13 @@
 					
 				</span>
 					</div>
-
+					 <p ng-show="ticketForm.email.$invalid && !ticketForm.email.$pristine" class="error">Enter a valid email</p>
+                            <p ng-show="ticketForm.mobileNumber.$invalid && !ticketForm.mobileNumber.$pristine" class="error">Enter a valid Mobile Number</p>
+					<div class="alert alert-danger" ng-show="raiseTicketPage.response.data.error">
+                                {{raiseTicketPage.response.data.message}}
+                    </div>		
 					<div>
-						<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-default submit" value="Submit">
+						<input type="submit" name="login-submit" ng-disabled="ticketForm.$invalid" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Submit">
 					</div>
 
 				</div>
