@@ -35,9 +35,11 @@ module.exports.controller = function (app) {
                     var myResponse = responseGenerator.generate(false, "",
                         200, newUser);
                     myResponse.token = 'JWT ' + token;
+                    /*
                     myMailer.sendMail("Welcome",
                         "Welcome to Ticket Support. Please let us know how can we help you",
                         newUser.email);
+                        */
                     res.send(myResponse);
 
                 }

@@ -1,4 +1,4 @@
 module.exports = {
   'secret': 'ticketSupportsystem',
-  'database': 'mongodb://localhost/ticketsystem'
+  'database': 'mongodb://localhost/supportdb'
 };

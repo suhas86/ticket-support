@@ -21,12 +21,11 @@ myApp.controller('loginController', ['$http', 'TicketService', '$location', '$co
                     } else {
                     user.password = "";
                     $cookies.putObject("auth", user);
-                   
                     $cookies.put("token", response.data.token);
                     if(user.userType==2)
                     $location.path('/raise-ticket')
                     else 
-                       $location.path('/tickets-all') 
+                    $location.path('/tickets-all') 
                     }
                     
                     

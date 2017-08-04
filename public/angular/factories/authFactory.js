@@ -10,8 +10,11 @@ myApp.factory('authFactory',['$cookies',function($cookies){
     }
 
     user.checkAdmin=function(){
-        var status=$cookies.get('auth');
-        if(status.userType==1){
+        
+        var status=$cookies.getObject('auth');
+        console.log(status)
+        if(status.userType== 1){
+            
             return true;
         } else {
             return false;
