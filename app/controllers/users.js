@@ -21,7 +21,8 @@ module.exports.controller = function (app) {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 mobileNumber: req.body.mobileNumber,
-                password: req.body.password
+                password: req.body.password,
+                userType:req.body.userType
             });
 
             newUser.save(function (err) {
