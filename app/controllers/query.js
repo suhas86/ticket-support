@@ -6,10 +6,11 @@ var queryModel = mongoose.model('Query');
 
 var responseGenerator = require('./../../libs/responseGenerator');
 // pass passport for configuration
-var passport	= require('passport');
+var passport = require('passport');
 require('./../../config/passport')(passport);
 //To upload file
 var multer = require('multer');
+var myMailer = require('./../../libs/sendMail');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/')
@@ -33,7 +34,7 @@ var upload = multer({
 module.exports.controller = function (app) {
 
     //Raise a ticket
-    queryRoute.post('/create',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.post('/create', passport.authenticate('jwt', { session: false }), function (req, res) {
         //Server side validation
         if (req.body.name != undefined && req.body.email != undefined
             && req.body.mobileNumber != undefined && req.body.querySubject != undefined
@@ -68,9 +69,9 @@ module.exports.controller = function (app) {
         }
     })
     //Get User query list
-    queryRoute.get('/list/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.get('/list/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
         var id = req.params.id;
-        queryModel.find({ userId: id }).sort({'createdAt': 'desc'}).exec(function (err, response) {
+        queryModel.find({ userId: id }).sort({ 'createdAt': 'desc' }).exec(function (err, response) {
             if (err) {
                 var myResponse = responseGenerator.generate(true,
                     "Oops some went wrong " + err, 500, null);
@@ -84,7 +85,7 @@ module.exports.controller = function (app) {
         })
     })
     //Get query by id
-    queryRoute.get('/case/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.get('/case/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
         var id = req.params.id;
 
         queryModel.findOne({ _id: id }, function (err, response) {
@@ -101,9 +102,9 @@ module.exports.controller = function (app) {
         })
     })
     //Add Comment
-    queryRoute.put('/case/:id/update',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.put('/case/:id/update', passport.authenticate('jwt', { session: false }), function (req, res) {
         var update = req.body;
-        console.log("To be updated ",update)
+        console.log("To be updated ", update)
         queryModel.findOneAndUpdate({ _id: req.params.id }, update, { new: true },
             function (err, response) {
                 if (err) {
@@ -115,18 +116,30 @@ module.exports.controller = function (app) {
                     var myResponse = responseGenerator.generate(false, "",
                         200, response);
                     //Send Mail
-                    if(update.ticketStatus!=undefined) {
+                    if (update.ticketStatus != undefined) {
                         console.log("Status update");
+                        /*
+                   myMailer.sendMail("Ticket status has been changed",
+                        "Your Ticket staus has been changed to "+response.ticketStatus+ " Please
+                        login to check the details",
+                       response.email);
+                       */
                     } else {
                         console.log("Comment updated")
-                    }  
+                        /*
+                   myMailer.sendMail("A comment has been posted",
+                        "New comment has been added to your ticket. Please
+                        login to check the details",
+                       response.email);
+                       */
+                    }
                     res.send(myResponse);
                 }
             })
     });
 
     //Upload file
-    queryRoute.post('/upload/:id',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.post('/upload/:id', passport.authenticate('jwt', { session: false }), function (req, res) {
 
         upload(req, res, function (err) {
             if (err) {
@@ -176,9 +189,9 @@ module.exports.controller = function (app) {
     })
 
     //********************Admin Apis ********************//
-    queryRoute.get('/all-list/',passport.authenticate('jwt', { session: false }), function (req, res) {
+    queryRoute.get('/all-list/', passport.authenticate('jwt', { session: false }), function (req, res) {
 
-        queryModel.find({}).sort({'createdAt': 'desc'}).exec(function (err, response) {
+        queryModel.find({}).sort({ 'createdAt': 'desc' }).exec(function (err, response) {
             if (err) {
                 var myResponse = responseGenerator.generate(true,
                     "Oops some went wrong " + err, 500, null);
@@ -192,7 +205,7 @@ module.exports.controller = function (app) {
         })
     })
     queryRoute.get('/download/:fileName', function (req, res) {
-        var file =  './uploads/' + req.params.fileName;
+        var file = './uploads/' + req.params.fileName;
         res.download(file); // Set disposition and send it.
     });
 
